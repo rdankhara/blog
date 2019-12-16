@@ -3,7 +3,7 @@ import {createAppContainer} from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 
 import { IndexScreen } from './src/screens/indexScreen';
-import { BlogProvider } from './src/contexts/BlogContext';
+import { Provider as BlogProvider } from './src/contexts/BlogContext';
 
 const navigation = createStackNavigator({
   Index: IndexScreen
