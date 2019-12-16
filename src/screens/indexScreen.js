@@ -5,9 +5,8 @@ import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import { Feather} from '@expo/vector-icons';
 
 const IndexScreen = ({navigation}) => {
-    const {data, addBlogPost, deleteBlogPost} = useContext(BlogContext);
+    const {data, deleteBlogPost} = useContext(BlogContext);
     return <View>
-        <Button title="Add Blog" onPress={addBlogPost}></Button>
         <FlatList data={data} 
             keyExtractor={bp => bp.title}
             renderItem={({item: {title, id}}) => {
@@ -27,6 +26,14 @@ const IndexScreen = ({navigation}) => {
     </View>
 }
 
+IndexScreen.navigationOptions = ({navigation}) => { 
+    return {
+        title: 'Blog List',
+        headerRight: <TouchableOpacity onPress={()=> navigation.navigate('Create')}>
+            <Feather name='plus' size={30} />
+            </TouchableOpacity>
+    }
+}
 const styles = StyleSheet.create({
     row: { 
         flexDirection: 'row',

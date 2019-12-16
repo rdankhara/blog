@@ -6,14 +6,16 @@ import { IndexScreen } from './src/screens/IndexScreen';
 import { ShowScreen } from './src/screens/ShowScreen';
 
 import { BlogProvider } from './src/contexts/BlogContext';
+import { CreateScreen } from './src/screens/CreateScreen';
 
 const navigation = createStackNavigator({
   Index: IndexScreen,
-  Show: ShowScreen
+  Show: ShowScreen,
+  Create: CreateScreen
 }, {
   initialRouteName: 'Index',
   defaultNavigationOptions: {
-    title: 'Welcome'
+    title: 'Blog'
   }
 })
 
