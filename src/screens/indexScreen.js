@@ -8,6 +8,13 @@ const IndexScreen = ({navigation}) => {
     const {data, deleteBlogPost, getBlogPosts} = useContext(BlogContext);
     useEffect(() => {
         getBlogPosts();
+
+        const listener = navigation.addListener('didFocus', ()=> {
+            getBlogPosts();
+        });
+        return () => { 
+            listener.remove();
+        }
     },[]);
 
     return <View>

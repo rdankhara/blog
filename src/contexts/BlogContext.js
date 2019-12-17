@@ -1,5 +1,5 @@
 import { createDataContext } from './createDataContext';
-import { getAll } from '../api/blogPost';
+import { blogPostApi } from '../api/blogPostApi';
 
 const GET_BLOG_POSTS = 'get_blogposts';
 const EDIT_BLOG_POST = 'edit_blogpost';
@@ -26,17 +26,16 @@ const blogReducer = (state, action) => {
 }
 
 const getBlogPosts = dispatch => async () => {
-    const response = await getAll();
+    const response = await blogPostApi.getAll();
     const payload = await response.json();
     dispatch({type: GET_BLOG_POSTS, payload})
 }
 
-const addBlogPost = dispatch => {
-    return (title, content, callback) => {
-        dispatch({type: ADD_BLOG_POST, payload: {title, content}});
-        if (callback && typeof callback === 'function') {
-            callback();
-        }
+const addBlogPost = dispatch => async (title, content, callback) => {
+    await blogPostApi.post({title, content});
+    //dispatch({type: ADD_BLOG_POST, payload: {title, content}});
+    if (callback && typeof callback === 'function') {
+        callback();
     }
 }
 
