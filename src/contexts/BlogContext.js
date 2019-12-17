@@ -1,25 +1,39 @@
 import { createDataContext } from './createDataContext';
+import { getAll } from '../api/blogPost';
+
+const GET_BLOG_POSTS = 'get_blogposts';
+const EDIT_BLOG_POST = 'edit_blogpost';
+const DEELTE_BLOG_POST = 'delete_blogpost';
+const ADD_BLOG_POST = 'add_blogpost';
 
 const blogReducer = (state, action) => {
     const { type, payload} = action;
     switch(type) {
-        case 'edit_blogpost':
+        case GET_BLOG_POSTS:
+            return payload;
+        case EDIT_BLOG_POST:
             return state.map(blogPost => 
                 blogPost.id === payload.id ? payload : blogPost
             );
-        case 'add_blogpost':
+        case ADD_BLOG_POST:
             const id = Math.floor(Math.random() * 99999);
             return [...state, {id, ...payload}];
-        case 'delete_blogpost': 
+        case DEELTE_BLOG_POST: 
             return state.filter(x => x.id !== payload)
         default:
             return state;
     }
 }
 
+const getBlogPosts = dispatch => async () => {
+    const response = await getAll();
+    const payload = await response.json();
+    dispatch({type: GET_BLOG_POSTS, payload})
+}
+
 const addBlogPost = dispatch => {
     return (title, content, callback) => {
-        dispatch({type: 'add_blogpost', payload: {title, content}});
+        dispatch({type: ADD_BLOG_POST, payload: {title, content}});
         if (callback && typeof callback === 'function') {
             callback();
         }
@@ -28,13 +42,13 @@ const addBlogPost = dispatch => {
 
 const deleteBlogPost = dispatch => { 
     return (payload) => {
-        dispatch({type: 'delete_blogpost', payload})
+        dispatch({type: DEELTE_BLOG_POST, payload})
     }
 }
 
 const editBlogPost = dispatch => { 
     return (payload, callback) => {
-        dispatch({type: 'edit_blogpost', payload});
+        dispatch({type: EDIT_BLOG_POSTS, payload});
         if (callback && typeof callback === 'function') {
             callback();
         }
@@ -42,5 +56,5 @@ const editBlogPost = dispatch => {
 }
 
 export const { Context: BlogContext, Provider: BlogProvider } = createDataContext(blogReducer, 
-    {addBlogPost, deleteBlogPost, editBlogPost}, 
+    {addBlogPost, deleteBlogPost, editBlogPost, getBlogPosts}, 
     [{id: 1, title: 'Test Title', content: 'Test Content'}])

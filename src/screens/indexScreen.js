@@ -1,11 +1,15 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 import { BlogContext } from '../contexts/BlogContext';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import { Feather} from '@expo/vector-icons';
 
 const IndexScreen = ({navigation}) => {
-    const {data, deleteBlogPost} = useContext(BlogContext);
+    const {data, deleteBlogPost, getBlogPosts} = useContext(BlogContext);
+    useEffect(() => {
+        getBlogPosts();
+    },[]);
+
     return <View>
         <FlatList data={data} 
             keyExtractor={bp => bp.title}
