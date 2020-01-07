@@ -18,7 +18,11 @@ const blogPostApi = {
     post: (payload) => { 
 
         return fetch(blogPostUri, getPostOrPutConfig('post', payload));
-    }
+    },
+    put: ({id, ...rest}) => {
+        return fetch(`${blogPostUri}/${id}`, getPostOrPutConfig('put', rest));
+    },
+    delete: (id) => fetch(`${blogPostUri}/${id}`, {method: 'delete'})
 }
 
 export { blogPostApi }

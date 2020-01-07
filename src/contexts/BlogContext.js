@@ -39,19 +39,22 @@ const addBlogPost = dispatch => async (title, content, callback) => {
     }
 }
 
-const deleteBlogPost = dispatch => { 
-    return (payload) => {
-        dispatch({type: DEELTE_BLOG_POST, payload})
-    }
+const deleteBlogPost = dispatch => async (payload) => {
+    
+    await blogPostApi.delete(payload);
+    
+    dispatch({type: DEELTE_BLOG_POST, payload})
 }
 
-const editBlogPost = dispatch => { 
-    return (payload, callback) => {
-        dispatch({type: EDIT_BLOG_POSTS, payload});
-        if (callback && typeof callback === 'function') {
-            callback();
-        }
+const editBlogPost = dispatch => async (payload, callback) => {
+    await blogPostApi.put(payload);
+
+    dispatch({type: EDIT_BLOG_POST, payload});
+    
+    if (callback && typeof callback === 'function') {
+        callback();
     }
+    
 }
 
 export const { Context: BlogContext, Provider: BlogProvider } = createDataContext(blogReducer, 
